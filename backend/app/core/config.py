@@ -1,7 +1,8 @@
 from functools import lru_cache
 from typing import List
 
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -29,9 +30,7 @@ class Settings(BaseSettings):
         default_factory=lambda: ["umt.edu.al", "uniel.edu.al", "example.edu"]
     )
 
-    class Config:
-        case_sensitive = True
-        env_file = ".env"
+    model_config = SettingsConfigDict(case_sensitive=True, env_file=".env")
 
 
 @lru_cache()

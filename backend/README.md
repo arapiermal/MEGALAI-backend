@@ -16,7 +16,16 @@ Async FastAPI backend skeleton for the MEGALAI educational platform.
    ```
 
 3. **Environment variables**
-   Copy `.env.example` to `.env` and update values.
+   Copy `.env.example` to `.env` and update values. For hosted deployments (e.g., Render), set these environment variables directly:
+   - `DATABASE_URL` (e.g., `postgresql+asyncpg://user:pass@host:5432/dbname`)
+   - `JWT_SECRET_KEY`
+   - `JWT_REFRESH_SECRET_KEY`
+   - `JWT_ALGORITHM` (defaults to `HS256` if omitted)
+   - `ACCESS_TOKEN_EXPIRE_MINUTES` (optional, defaults to 15)
+   - `REFRESH_TOKEN_EXPIRE_DAYS` (optional, defaults to 30)
+   - `ALLOWED_ORIGINS` (JSON array of origins, e.g., `["http://localhost:5173","https://megalai-frontend.netlify.app"]`)
+   - `ENABLE_DOMAIN_RESTRICTION` (`true`/`false`)
+   - `DEFAULT_ALLOWED_DOMAINS` (JSON array of allowed domains when restriction is enabled)
 
 4. **Run the app**
    ```bash
