@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api import routes_admin, routes_ai, routes_auth, routes_organizations, routes_settings, routes_topics, routes_users
 from app.core.config import get_settings
-from app.db.base import Base
+from app.db.base import Base, import_models
 from app.db.session import AsyncSessionLocal, engine
 from app.models.allowed_email_domain import AllowedEmailDomain
 
@@ -36,6 +36,8 @@ app.include_router(routes_admin.router)
 
 @app.on_event("startup")
 async def on_startup() -> None:
+    import_models()
+
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 

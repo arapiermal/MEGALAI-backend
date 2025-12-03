@@ -1,10 +1,20 @@
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase
 
-Base = declarative_base()
 
-# Import models to ensure they are registered with SQLAlchemy metadata
-from app.models.user import User  # noqa: E402,F401
-from app.models.organization import Organization  # noqa: E402,F401
-from app.models.allowed_email_domain import AllowedEmailDomain  # noqa: E402,F401
-from app.models.user_settings import UserSettings  # noqa: E402,F401
-from app.models.topic import Topic  # noqa: E402,F401
+class Base(DeclarativeBase):
+    """Base class for all ORM models."""
+
+
+def import_models() -> None:
+    """Import all model modules to register them with SQLAlchemy metadata."""
+
+    from app.models import (  # noqa: F401
+        allowed_email_domain,
+        organization,
+        topic,
+        user,
+        user_settings,
+    )
+
+
+__all__ = ["Base", "import_models"]
