@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class UserSettingsBase(BaseModel):
@@ -12,8 +12,7 @@ class UserSettingsBase(BaseModel):
     anthropic_api_key: Optional[str] = None
     local_api_key: Optional[str] = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserSettingsRead(UserSettingsBase):

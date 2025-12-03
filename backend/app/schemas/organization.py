@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class OrganizationBase(BaseModel):
@@ -9,8 +9,7 @@ class OrganizationBase(BaseModel):
     slug: str
     primary_domain: Optional[str] = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class OrganizationCreate(OrganizationBase):

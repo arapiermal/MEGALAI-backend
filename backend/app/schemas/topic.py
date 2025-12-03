@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class TopicBase(BaseModel):
@@ -9,8 +9,7 @@ class TopicBase(BaseModel):
     description: Optional[str] = None
     organization_id: Optional[str] = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class TopicCreate(TopicBase):
