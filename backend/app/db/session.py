@@ -25,7 +25,7 @@ def _build_engine_url(database_url: str) -> URL:
 
 def _build_connect_args(url: URL) -> dict:
     host = url.host or ""
-    if host and host not in {"localhost", "127.0.0.1"}:
+    if host and host not in {"localhost", "127.0.0.1", "::1"}:
         return {"ssl": ssl.create_default_context()}
     return {}
 
