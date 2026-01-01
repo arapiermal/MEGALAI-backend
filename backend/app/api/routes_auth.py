@@ -60,13 +60,21 @@ async def register(request: RegisterRequest, db: AsyncSession = Depends(get_db))
     if existing.scalars().first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
 
+    if not request.password:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password must not be empty")
+    if len(request.password.encode("utf-8")) > 72:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must be at most 72 bytes",
+        )
+
     new_user = User(
         email=request.email,
         name=request.name,
         password_hash=hash_password(request.password),
         role="student",
-        organization_id=request.organization_id,
-        current_organization_id=request.organization_id,
+        organization_id=None,
+        current_organization_id=None,
     )
     db.add(new_user)
     await db.commit()
