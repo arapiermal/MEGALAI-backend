@@ -19,6 +19,15 @@ class Organization(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
-    users = relationship("User", back_populates="organization")
+    users = relationship(
+        "User",
+        back_populates="organization",
+        foreign_keys="User.organization_id",
+    )
+    current_users = relationship(
+        "User",
+        back_populates="current_organization",
+        foreign_keys="User.current_organization_id",
+    )
     allowed_domains = relationship("AllowedEmailDomain", back_populates="organization")
     topics = relationship("Topic", back_populates="organization")

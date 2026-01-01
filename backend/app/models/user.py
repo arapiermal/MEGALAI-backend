@@ -23,7 +23,15 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
-    organization = relationship("Organization", foreign_keys=[organization_id], back_populates="users")
-    current_organization = relationship("Organization", foreign_keys=[current_organization_id])
+    organization = relationship(
+        "Organization",
+        foreign_keys=[organization_id],
+        back_populates="users",
+    )
+    current_organization = relationship(
+        "Organization",
+        foreign_keys=[current_organization_id],
+        back_populates="current_users",
+    )
     settings = relationship("UserSettings", back_populates="user", uselist=False)
     topics = relationship("Topic", back_populates="creator")

@@ -41,13 +41,19 @@ async def on_startup() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
+    if not settings.DEFAULT_ALLOWED_DOMAINS:
+        return
+
     async with AsyncSessionLocal() as session:  # type: AsyncSession
         existing = await session.execute(select(AllowedEmailDomain.domain))
         existing_domains = {row[0] for row in existing}
         missing = [d for d in settings.DEFAULT_ALLOWED_DOMAINS if d not in existing_domains]
         if missing:
             session.add_all([AllowedEmailDomain(domain=domain) for domain in missing])
-            await session.commit()
+            try:
+                await session.commit()
+            except Exception:
+                logger.exception("Failed to seed default allowed domains")
 
 
 @app.get("/health")
