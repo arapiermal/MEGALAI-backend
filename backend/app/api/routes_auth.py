@@ -73,8 +73,8 @@ async def register(request: RegisterRequest, db: AsyncSession = Depends(get_db))
         name=request.name,
         password_hash=hash_password(request.password),
         role="student",
-        organization_id=request.organization_id,
-        current_organization_id=request.organization_id,
+        organization_id=None,
+        current_organization_id=None,
     )
     db.add(new_user)
     await db.commit()
